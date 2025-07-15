@@ -80,14 +80,21 @@ const ChatList = ({isLoading, setIsLoading}: ChatListPageProps) => {
     VITE_WEBSOCKET_URL,
     {
       onOpen: () => {
+        console.log("WebSocket connected to Java backend");
         if (messages.length > 0 && messages[0]?.prompt) {
-          sendMessage(messages[0].prompt);
+          // Format the message for the Java backend
+          const messageObj = {
+            prompt: messages[0].prompt
+          };
+          sendMessage(JSON.stringify(messageObj));
         }
       },
-      onError: () => {
+      onError: (event) => {
+        console.error("WebSocket error:", event);
         setIsLoading(false);
       },
       onClose: () => {
+        console.log("WebSocket closed");
         setIsLoading(false);
       },
       reconnectAttempts: 3,
@@ -125,15 +132,30 @@ const ChatList = ({isLoading, setIsLoading}: ChatListPageProps) => {
   useEffect(() => {
     if (!lastJsonMessage) return;
 
+    console.log("Received WebSocket message:", lastJsonMessage);
+
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.role === "system") {
       setIsLoading(true);
 
+      // Handle Java backend response format
+      // The Java backend sends a StreamResponse object with content, role, and type fields
+      const javaResponse = lastJsonMessage as any;
+      
+      // Create a SystemMessage from the Java response
+      const systemMessage: SystemMessage = {
+        agent_name: javaResponse.role || "Orchestrator",
+        instructions: "",
+        steps: [],
+        output: javaResponse.content || "",
+        status_code: 200,
+        live_url: ""
+      };
+      
       const lastMessageData = lastMessage.data || [];
-      const {agent_name, instructions, steps, output, status_code, live_url} =
-        lastJsonMessage as SystemMessage;
+      const {agent_name, instructions, steps, output, status_code, live_url} = systemMessage;
 
-      console.log(lastJsonMessage);
+      console.log("Processed message:", systemMessage);
 
       if (live_url && liveUrl.length === 0) {
         setCurrentOutput(null);
@@ -511,7 +533,11 @@ const ChatList = ({isLoading, setIsLoading}: ChatListPageProps) => {
 
   const handleHumanInputSubmit = () => {
     if (humanInputValue.trim()) {
-      sendMessage(humanInputValue);
+      // Format the message for the Java backend
+      const messageObj = {
+        prompt: humanInputValue
+      };
+      sendMessage(JSON.stringify(messageObj));
       setHumanInputValue("");
       setAnimateSubmit(true);
       setIsLoading(true);

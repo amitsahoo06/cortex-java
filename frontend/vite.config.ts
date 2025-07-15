@@ -13,12 +13,21 @@ export default defineConfig({
     },
   },
   preview: {
-    port: 3000,
+    port: 12001,
     strictPort: true,
   },
   server: {
-    port: 3000,
+    port: 12001,
     strictPort: true,
     host: true,
+    cors: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:12000',
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      }
+    }
   },
 });
