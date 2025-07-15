@@ -1,0 +1,68 @@
+.response-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.agent-response {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.agent-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.agent-name {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.agent-timestamp {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.agent-instructions {
+    font-style: italic;
+    margin-bottom: 10px;
+    color: #6c757d;
+}
+
+.agent-steps {
+    margin-bottom: 10px;
+}
+
+.agent-step {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    border-left: 3px solid #0d6efd;
+}
+
+.agent-output {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    white-space: pre-wrap;
+}
+
+.status-success {
+    color: #198754;
+}
+
+.status-error {
+    color: #dc3545;
+}
+
+.status-pending {
+    color: #fd7e14;
+}
