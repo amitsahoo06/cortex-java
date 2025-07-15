@@ -1,6 +1,6 @@
 # CortexON Java Spring Boot API
 
-This is a Java Spring Boot implementation of the CortexON API, which provides a backend for orchestrating AI agents.
+This is a Java Spring Boot implementation of the CortexON API, which provides a backend for orchestrating AI agents. This project is a port of the Python CortexON project to Java Spring Boot.
 
 ## Features
 
