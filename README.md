@@ -1,6 +1,6 @@
 # CortexON Java Spring Boot API
 
-This is a Java Spring Boot implementation of the CortexON API, which provides a backend for orchestrating AI agents.
+This is a Java Spring Boot implementation of the CortexON API, which provides a backend for orchestrating AI agents. This project is a port of the Python CortexON project to Java Spring Boot.
 
 ## Features
 
@@ -31,11 +31,33 @@ mvn clean install
 
 ### Run the Application
 
+#### Backend Only
+
 ```bash
 mvn spring-boot:run
 ```
 
-The application will start on port 12000 by default. You can access the API at http://localhost:12000/api.
+The backend will start on port 12000 by default. You can access the API at http://localhost:12000/api.
+
+#### Frontend Only
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend will start on port 12001 by default. You can access the UI at http://localhost:12001.
+
+#### Run Both Together
+
+We provide a convenience script to start both the backend and frontend:
+
+```bash
+./start.sh
+```
+
+This will start the backend on port 12000 and the frontend on port 12001.
 
 ## API Documentation
 
@@ -51,6 +73,28 @@ Swagger UI is available at http://localhost:12000/api/swagger-ui.html
   - `util`: Utility classes
 - `src/main/resources`: Configuration files
 - `src/test`: Test code
+- `frontend`: React frontend application
+  - `src`: Frontend source code
+  - `public`: Static assets
+
+## Frontend-Backend Integration
+
+The frontend communicates with the backend through:
+
+1. **REST API**: For standard HTTP requests
+2. **WebSocket**: For real-time streaming responses
+
+The integration is configured in the following files:
+
+- Backend:
+  - `WebSocketConfig.java`: Configures WebSocket endpoints
+  - `CorsConfig.java`: Configures CORS to allow frontend requests
+  - `WebSocketController.java`: Handles WebSocket connections
+
+- Frontend:
+  - `.env`: Contains API and WebSocket URLs
+  - `src/services/platformConfig.ts`: Configures API base URL
+  - `src/components/home/ChatList.tsx`: Handles WebSocket communication
 
 ## Configuration
 
